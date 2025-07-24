@@ -35,4 +35,10 @@ public class QuickKartController {
         return quickKartService.getproducts(categoryId);
     }
 
+    @PostMapping("/signup")
+    public User signup(@RequestBody User user) {
+        user.setUserId(null);
+        return userRepo.save(user);
+    }
+
 }
