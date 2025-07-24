@@ -21,7 +21,7 @@ public class QuickKartService {
         return categoryRepo.findAll();
     }
 
-    public List<Product> getproducts (Long categoryID){
-        return productRepo.findByCategoryID(categoryID);
+    public List<Product> getproducts (Long categoryId){
+        return productRepo.findByCategoryID(categoryId);
     }
 }

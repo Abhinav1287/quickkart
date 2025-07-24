@@ -25,14 +25,14 @@ public class QuickKartController {
         return userRepo.findAll();
     }
 
-    @GetMapping("getcategories")
+    @GetMapping("/getcategories")
     public List<Category> getCategories(){
         return quickKartService.getcategories();
     }
 
-    @GetMapping("getproducts")
-    public List<Product> getProducts(@RequestParam Long catergory_id){
-        return quickKartService.getproducts(catergory_id);
+    @GetMapping("/getproducts")
+    public List<Product> getProducts(@RequestParam("category_id") Long categoryId) {
+        return quickKartService.getproducts(categoryId);
     }
 
 }
