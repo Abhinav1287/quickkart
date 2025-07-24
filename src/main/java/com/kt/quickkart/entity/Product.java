@@ -1,5 +1,6 @@
 package com.kt.quickkart.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private Category category;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
