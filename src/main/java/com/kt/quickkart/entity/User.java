@@ -19,7 +19,7 @@ public class User {
     private String password;
     private String createdAt; //why is this required
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     private List<Orders> orders;
 
 
