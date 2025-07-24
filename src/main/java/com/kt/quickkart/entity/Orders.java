@@ -18,14 +18,28 @@ public class Orders {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
-    public Long getOrderId() {
-        return orderId;
-    }
+    public Orders() {} //  JPA requires this
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    //  Getters and Setters
+    public Long getOrderId() { return orderId; }
+    public void setOrderId(Long orderId) { this.orderId = orderId; }
+
+    public String getOrderDate() { return orderDate; }
+    public void setOrderDate(String orderDate) { this.orderDate = orderDate; }
+
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) { this.amount = amount; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+
+    public List<OrderItem> getOrderItems() { return orderItems; }
+    public void setOrderItems(List<OrderItem> orderItems) { this.orderItems = orderItems;
     }
 }
