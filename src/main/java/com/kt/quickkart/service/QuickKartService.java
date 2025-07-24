@@ -34,4 +34,19 @@ public class QuickKartService {
     public User registerUser(User user) {
         return userRepo.save(user);
     }
+    public Category addCategory(Category category) {
+        if (category.getProducts() != null) {
+            for (Product product : category.getProducts()) {
+                product.setCategory(category);  // Associate product with category
+            }
+        }
+        return categoryRepo.save(category); // Save category and products
+    }
+    public Product addProduct(Product product, Long categoryId) {
+        Category category = categoryRepo.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Invalid category ID"));
+
+        product.setCategory(category); // Link product to category
+        return productRepo.save(product);
+    }
 }
