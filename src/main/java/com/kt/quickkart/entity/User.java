@@ -6,19 +6,21 @@ import jakarta.persistence.criteria.Order;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
     private String username;
     private String email;
     private String contactNumber;
     private String password;
-    private String createdAt;
+    private String createdAt; //why is this required
 
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders;
+    @OneToMany(mappedBy = "users")
+    private List<Orders> orders;
 
 
     public Long getUserId() {

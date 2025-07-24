@@ -1,9 +1,9 @@
 package com.kt.quickkart.entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.Order;
 
 @Entity
+@Table(name="orderitem")
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +14,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Orders order;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
