@@ -11,6 +11,7 @@ import com.kt.quickkart.entity.User;
 import com.kt.quickkart.repository.OrdersRepo;
 import com.kt.quickkart.repository.ProductRepo;
 import com.kt.quickkart.repository.UserRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,8 @@ public class OrderService {
     private ProductRepo productRepository;
 
 
+    @Transactional
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public OrderResponseDTO placeOrder(OrderRequestDTO request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -88,4 +91,40 @@ public class OrderService {
         response.setItems(summary);
         return response;
     }
+
+
+    @Transactional
+    public OrderResponseDTO cancelOrder(Long orderId) {
+        Orders order = ordersRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        if ("CANCELLED".equalsIgnoreCase(order.getStatus())) {
+            throw new RuntimeException("Order is already cancelled");
+        }
+
+
+        order.setStatus("CANCELLED");
+        Orders updatedOrder = ordersRepository.save(order);
+
+        OrderResponseDTO response = new OrderResponseDTO();
+        response.setOrderId(updatedOrder.getOrderId());
+        response.setAmount(updatedOrder.getAmount());
+        response.setStatus(updatedOrder.getStatus());
+        response.setOrderDate(updatedOrder.getOrderDate());
+
+        List<OrderItemSummaryDTO> items = updatedOrder.getOrderItems().stream()
+                .map(item -> {
+                    OrderItemSummaryDTO dto = new OrderItemSummaryDTO();
+                    dto.setProductId(item.getProduct().getProductId());
+                    dto.setProductName(item.getProduct().getName());
+                    dto.setQuantity(item.getQuantity());
+                    dto.setPrice(item.getPrice());
+                    return dto;
+                }).collect(Collectors.toList());
+
+        response.setItems(items);
+        return response;
+    }
+
+
 }

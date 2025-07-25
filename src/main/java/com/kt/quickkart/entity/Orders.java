@@ -1,4 +1,5 @@
 package com.kt.quickkart.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class Orders {
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
 
+    @JsonIgnore
     public List<OrderItem> getOrderItems() { return orderItems; }
     public void setOrderItems(List<OrderItem> orderItems) { this.orderItems = orderItems;
     }

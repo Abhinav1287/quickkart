@@ -1,3 +1,4 @@
+//not needed
 package com.kt.quickkart.entity;
 
 import jakarta.persistence.*;
