@@ -1,7 +1,6 @@
 package com.kt.quickkart.entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.Order;
 
 import java.util.List;
 
@@ -72,10 +71,6 @@ public class User {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public List<Orders> getOrders() {
-        return orders;
     }
 
     public void setOrders(List<Orders> orders) {

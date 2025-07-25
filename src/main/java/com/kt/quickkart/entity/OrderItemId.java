@@ -6,44 +6,33 @@ import java.util.Objects;
 
 @Embeddable
 public class OrderItemId implements Serializable {
-
-    private Long order;
-    private Long product;
+    private Long orderId;
+    private Long productId;
 
     public OrderItemId() {}
 
-    public OrderItemId(Long order, Long product) {
-        this.order = order;
-        this.product = product;
+    public OrderItemId(Long orderId, Long productId) {
+        this.orderId = orderId;
+        this.productId = productId;
     }
 
-    public Long getOrder() {
-        return order;
-    }
-
-    public void setOrder(Long order) {
-        this.order = order;
-    }
-
-    public Long getProduct() {
-        return product;
-    }
-
-    public void setProduct(Long product) {
-        this.product = product;
-    }
+    // Getters & Setters
+    public Long getOrderId() { return orderId; }
+    public void setOrderId(Long orderId) { this.orderId = orderId; }
+    public Long getProductId() { return productId; }
+    public void setProductId(Long productId) { this.productId = productId; }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof OrderItemId)) return false;
         OrderItemId that = (OrderItemId) o;
-        return Objects.equals(order, that.order) &&
-                Objects.equals(product, that.product);
+        return Objects.equals(orderId, that.orderId) &&
+                Objects.equals(productId, that.productId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(order, product);
+        return Objects.hash(orderId, productId);
     }
 }

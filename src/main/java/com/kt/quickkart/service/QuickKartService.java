@@ -15,25 +15,32 @@ import java.util.List;
 
 @Service
 public class QuickKartService {
+
     @Autowired
     private CategoryRepo categoryRepo;
 
     @Autowired
     private ProductRepo productRepo;
 
+    @Autowired
+    private UserRepo userRepo;
+
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public List<Category> getcategories() {
         return categoryRepo.findAll();
     }
+
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public List<Product> getproducts (Long categoryId){
         return productRepo.findByCategoryID(categoryId);
     }
-    @Autowired
-    private UserRepo userRepo;
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public User registerUser(User user) {
         return userRepo.save(user);
     }
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Category addCategory(Category category) {
         if (category.getProducts() != null) {
             for (Product product : category.getProducts()) {
@@ -42,6 +49,8 @@ public class QuickKartService {
         }
         return categoryRepo.save(category); // Save category and products
     }
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Product addProduct(Product product, Long categoryId) {
         Category category = categoryRepo.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Invalid category ID"));
@@ -49,4 +58,5 @@ public class QuickKartService {
         product.setCategory(category); // Link product to category
         return productRepo.save(product);
     }
+
 }

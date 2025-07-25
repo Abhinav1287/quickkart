@@ -1,10 +1,13 @@
 package com.kt.quickkart.controller;
 
+import com.kt.quickkart.dto.OrderRequestDTO;
+import com.kt.quickkart.dto.OrderResponseDTO;
 import com.kt.quickkart.entity.Category;
 import com.kt.quickkart.entity.Product;
 import com.kt.quickkart.entity.User;
 import com.kt.quickkart.repository.CategoryRepo;
 import com.kt.quickkart.repository.UserRepo;
+import com.kt.quickkart.service.OrderService;
 import com.kt.quickkart.service.QuickKartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,23 +19,27 @@ import java.util.List;
 @RestController
 @RequestMapping("/quickkart")
 public class QuickKartController {
+
     @Autowired
     private UserRepo userRepo;
 
     @Autowired
     private QuickKartService quickKartService;
 
-    @GetMapping("/getusers")
+    @Autowired
+    private OrderService orderService;
+
+    @GetMapping("/getusers") //working
     public List<User> getUsers(){
         return userRepo.findAll();
     }
 
-    @GetMapping("/getcategories")
+    @GetMapping("/getcategories") //working
     public List<Category> getCategories(){
         return quickKartService.getcategories();
     }
 
-    @GetMapping("/getproducts")
+    @GetMapping("/getproducts") //working
     public List<Product> getProducts(@RequestParam("category_id") Long categoryId) {
         return quickKartService.getproducts(categoryId);
     }
@@ -42,14 +49,25 @@ public class QuickKartController {
         user.setUserId(null);
         return userRepo.save(user);
     }
+
     @PostMapping("/addcategory")
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
         Category savedCategory = quickKartService.addCategory(category);
         return new ResponseEntity<>(savedCategory, HttpStatus.CREATED);
     }
+
     @PostMapping("/addproduct")
     public ResponseEntity<Product> addProduct(@RequestBody Product product, @RequestParam Long categoryId) {
         Product savedProduct = quickKartService.addProduct(product, categoryId);
         return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
     }
+
+
+    @PostMapping("/order")
+    public ResponseEntity<OrderResponseDTO> placeOrder(@RequestBody OrderRequestDTO request) {
+        OrderResponseDTO response = orderService.placeOrder(request);
+        return ResponseEntity.ok(response);
+    }
+
+
 }
